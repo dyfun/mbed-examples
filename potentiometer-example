@@ -1,0 +1,26 @@
+#include "mbed.h"
+
+static DigitalOut led(LED1);
+AnalogIn read(p20);
+
+int main()
+{
+    float read_value;
+    float read_voltage;
+
+    while(1){
+        
+        read_value = read.read();
+        read_voltage = read_value * 3300.0;
+
+        printf("Result = %f = %f mV\n", read_value, read_voltage);
+
+        if(read_voltage > 1700){ // You can change between 1 to 3.3v. (1-3300)
+            led = 1;
+        }else {
+            led = 0;
+        }
+
+        ThisThread::sleep_for(1000ms);
+    }
+}
