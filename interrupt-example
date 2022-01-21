@@ -1,0 +1,25 @@
+#include "mbed.h"
+
+InterruptIn buton(p8);
+DigitalOut led(LED1);
+DigitalOut led2(LED2);
+DigitalOut led3(LED3);
+DigitalOut led4(LED4);
+
+void flip() {
+    led = !led;
+}
+
+int main()
+{
+    //buton.mode(PullUp);
+    buton.fall(&flip);
+    while(1){
+        led2 = !led2;
+        ThisThread::sleep_for(200ms);
+        led3 = !led3;
+        ThisThread::sleep_for(200ms);
+        led4 = !led4;
+        ThisThread::sleep_for(200ms);
+    }
+}
