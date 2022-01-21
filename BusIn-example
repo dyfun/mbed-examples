@@ -1,0 +1,19 @@
+#include "mbed.h"
+
+BusIn button(p8, p15, p16, p17);
+
+int main()
+{
+    button.mode(PullNone);
+
+    while (1) {
+        switch (button & button.mask()) {
+            case 0x0: printf("0b0000, p8 low \n\r");
+                break;
+            case 0x1: printf("0b1000, p8 high \n\r");
+                break;
+        }
+
+        ThisThread::sleep_for(1000ms);
+    }
+}
