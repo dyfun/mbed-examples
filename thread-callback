@@ -1,0 +1,19 @@
+#include "mbed.h"
+DigitalOut led1(LED1);
+Thread thread;
+
+volatile bool running = true;
+
+void method(DigitalOut *gelen){
+    while(running){
+        *gelen = !*gelen;
+        ThisThread::sleep_for(100ms);
+    }
+}
+
+int main(){ 
+       thread.start(callback(method, &led1));
+       ThisThread::sleep_for(10s);
+       running = false;
+       thread.join();
+}
