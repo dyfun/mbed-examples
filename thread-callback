@@ -2,11 +2,11 @@
 DigitalOut led1(LED1);
 Thread thread;
 
-volatile bool running = true;
+volatile bool status = true;
 
-void method(DigitalOut *gelen){
+void method(DigitalOut *ar){
     while(running){
-        *gelen = !*gelen;
+        *ar = !*ar;
         ThisThread::sleep_for(100ms);
     }
 }
@@ -14,6 +14,6 @@ void method(DigitalOut *gelen){
 int main(){ 
        thread.start(callback(method, &led1));
        ThisThread::sleep_for(10s);
-       running = false;
+       status = false;
        thread.join();
 }
