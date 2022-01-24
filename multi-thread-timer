@@ -1,0 +1,33 @@
+#include "mbed.h"
+BusOut leds(LED1, LED2);
+Thread thread1, thread2;
+Timer t_time;
+
+bool status = true, status2 = true, status3 = true;
+
+void method1() {
+  while (status3) {
+    leds[0] = !leds[0];
+    ThisThread::sleep_for(100ms);
+  }
+}
+
+void method2() {
+  while (1) {
+    if (t_time.read() > 8 && status2) {
+      t_time.stop();
+      status2 = false;
+      status3 = true;
+      method1();
+    } else if(t_time.read() > 3 && status) {
+      status = false;
+      status3 = false;
+    }
+  }
+}
+
+int main() {
+    t_time.start();
+    thread1.start(method2);
+    thread2.start(method1);
+}
