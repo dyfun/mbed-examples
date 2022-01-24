@@ -1,0 +1,22 @@
+#include "mbed.h"
+DigitalOut led1(LED1);
+DigitalOut led2(LED2);
+
+Thread thread;
+
+
+void method(){
+    while(1){
+        led2 = !led2;
+        ThisThread::sleep_for(100ms);
+    }
+}
+
+int main(){ 
+       thread.start(method);
+
+       while(1){
+           led1= !led1;
+           ThisThread::sleep_for(50ms);
+       }
+}
