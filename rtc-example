@@ -1,0 +1,17 @@
+#include "mbed.h"
+#include <cstdio>
+#include <cstring>
+#include <ctime>
+DigitalOut led(LED1);
+
+int main() {
+  set_time(1643096234);
+    led = 0;
+  while (1) {
+    time_t seconds = time(NULL);
+    printf("Basic string: %s", ctime(&seconds));
+    if(strcmp(ctime(&seconds), "Tue Jan 25 7:39:25 2022") == 1){
+        led = 1;
+    }
+  }
+}
