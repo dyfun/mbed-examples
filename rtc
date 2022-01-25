@@ -1,0 +1,19 @@
+#include "mbed.h"
+#include <cstdio>
+#include <ctime>
+
+int main() {
+  set_time(1643095653);
+
+  while (1) {
+    time_t seconds = time(NULL);
+    printf("Time as second since 01.01.1970 = %d\n", seconds);
+    printf("Time as e basic string = %s", ctime(&seconds));
+
+    char buffer[32];
+    strftime(buffer, 32, "%I:%M %p\n", localtime(&seconds));
+    printf("Time as a custom formatteed string = %s", buffer);
+    
+    ThisThread::sleep_for(1000ms);
+  }
+}
