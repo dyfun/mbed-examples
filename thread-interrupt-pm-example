@@ -1,0 +1,36 @@
+#include "mbed.h"
+DigitalOut led2(LED2);
+DigitalOut led3(LED3);
+DigitalOut led4(LED4);
+PwmOut led1(LED1);
+InterruptIn buton(p8);
+AnalogIn pm(p20);
+Thread t1;
+Thread t2;
+
+void methot1(DigitalOut *arg) {
+  while (1) {
+    *arg = !*arg;
+    ThisThread::sleep_for(500ms);
+  }
+}
+
+void methot3() { led4 = !led4; }
+
+int main() {
+
+  led1 = 0;
+  led2 = 1;
+  led3 = 0;
+
+  buton.fall(&methot3);
+
+  t1.start(callback(methot1, &led2));
+  t2.start(callback(methot1, &led3));
+
+  while (1) {
+
+    led1 = pm.read();
+    ThisThread::sleep_for(100ms);
+  }
+}
