@@ -1,0 +1,26 @@
+#include "mbed.h"
+Mutex mutex;
+Thread t1;
+Thread t2;
+
+void notify(const char* name, int state){
+    mutex.lock();
+    printf("%s: %d \n\r", name,state);
+    mutex.unlock();
+}
+
+void test_thread(void const *args){
+    while(1){
+        notify((const char*)(args),0);
+        ThisThread::sleep_for(100ms);
+        notify((const char*)(args),1);
+        ThisThread::sleep_for(100ms);
+    }
+}
+
+int main() {
+    t1.start(callback(test_thread, (void *) "Th 2"));
+    t2.start(callback(test_thread, (void *) "Th 3"));
+
+    test_thread((void *) "TH1");
+}
